@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mailto/mailto.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertesting/components/BaseAppBar/base_app_bar.dart';
 import 'package:fluttertesting/components/RoundedButton/rounded_button.dart';
@@ -28,11 +27,23 @@ class _ContactPageState extends State<ContactPage> {
         'body': 'Message here ..'
       },
     );
+    await launcher(mailtoLink);
+  }
+
+  Future<void> launcher(Uri mailtoLink) async {
     try {
       await launchUrl(mailtoLink);
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<void> launchPhone() async {
+    final Uri mailtoLink = Uri(
+      scheme: 'tel',
+      path: '27999999999',
+    );
+    await launcher(mailtoLink);
   }
 
   @override
@@ -65,9 +76,7 @@ class _ContactPageState extends State<ContactPage> {
                       image: AppImages.phoneIcon,
                       buttonText: 'Telefone',
                       color: AppColors.gray6,
-                      onPressed: () {
-                        print('Telefone!');
-                      },
+                      onPressed: launchPhone,
                     ),
                   ],
                 ),
